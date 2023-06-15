@@ -1,45 +1,78 @@
-var currentStep = 1;
-var steps = ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "result"];
+// 現在のステップ数を保持する変数
+let currentStep = 1;
 
-var settings = {
-    "general": { min: 0.01, max: 0.1 },
-    "workshop": { min: 0.01, max: 0.1 },
-    "university": { min: 0.03, max: 0.06 },
-    "highschool": { min: 0.01, max: 0.1 }
-};
+// 上演の種類を保持する変数
+let performanceType;
 
-var step1_input, step2_input, step3_input, step4_input, step5_input, step6_input;
+// 次のステップへ移動するための関数
+function nextStep(step) {
+    // 現在のステップと異なるステップが指定された場合、関数はここで終了する
+    if (step !== currentStep) return;
 
-function nextStep(current) {
-    var value;
-    switch (current) {
-        case "step1":
-            value = document.getElementById('config-width').value;
-            step1_input = parseFloat(value);
-            break;
-        case "step2":
-            value = document.getElementById('performance-type').value;
-            step2_input = value;
-            document.getElementById('config-width').min = settings[value].min;
-            document.getElementById('config-width').max = settings[value].max;
-            break;
-        // Update the other steps here in a similar way as above
+    // 設定幅が0.01から0.1の範囲内であることを確認する
+    if (step === 1) {
+        let settingWidth = document.getElementById('settingWidth').value;
+        if (settingWidth < 0.01 || settingWidth > 0.1) return;
     }
 
-    document.getElementById(current).classList.add("hidden");
+    // 上演の種類を選択する
+    if (step === 2) {
+        performanceType = document.getElementById('performanceType').value;
+    }
+
+    // 現在のステップを非表示にし、次のステップを表示する
+    document.getElementById(`step${currentStep}`).classList.add('hidden');
     currentStep += 1;
-    document.getElementById(steps[currentStep - 1]).classList.remove("hidden");
+    document.getElementById(`step${currentStep}`).classList.remove('hidden');
+
+    // 最終ステップに達した場合、計算を行う
+    if (currentStep === 8) {
+        calculate();
+    }
 }
 
+// 計算を行うための関数
 function calculate() {
-    var result;
+    // 各値を取得する
+    let settingWidth = document.getElementById('settingWidth').value;
+    let ticketPrice = document.getElementById('ticketPrice').value;
+    let seatNumber = document.getElementById('seatNumber').value;
+    let performanceNumber = document.getElementById('performanceNumber').value;
+    let subsidy = document.getElementById('subsidy').value;
+    let sponsorFee = document.getElementById('sponsorFee').value;
 
-    if (step2_input === "highschool") {
-        result = 5000;  // For high school performances, the result is always 5000 yen
-    } else {
-        // Perform the calculation here for the other types of performances
-        // using the input values from the steps
+    // 上演の種類が高校演劇の場合、計算結果は一律5000円とする
+    if (performanceType === 'highschool') {
+        document.getElementById('final-result').innerText = `最終結果: 5000円`;
+        document.getElementById('calculation-process').innerText = `計算過程: 高校演劇の場合、計算結果は一律5000円です。`;
+        return;
     }
 
-    document.getElementById('result').innerText = '計算結果: ' + result + '円';
+    // 各変数の計算を行う
+    let A = ticketPrice;
+    let B = seatNumber * performanceNumber;
+    let C = A * B;
+    let E = C;
+    let F = subsidy;
+    let G = sponsorFee;
+    let H = E - F - G;
+    let I = H * settingWidth;
+    let J = Math.ceil(I);
+
+    // 最終結果を表示する
+    document.getElementById('final-result').innerText = `最終結果: ${J}円`;
+
+    // 計算過程を表示する
+    let calculationProcess = `計算過程: \n`;
+    calculationProcess += `A (チケット料金) = ${A}円 \n`;
+    calculationProcess += `B (総席数) = チケット料金 * 上演回数 = ${A} * ${B} = ${B}席 \n`;
+    calculationProcess += `C (総収入見込み) = A * B = ${A} * ${B} = ${C}円 \n`;
+    calculationProcess += `E (上演割合適用後の収入見込み) = C = ${C}円 \n`;
+    calculationProcess += `F (助成金/補助金) = ${F}円 \n`;
+    calculationProcess += `G (委託費/スポンサー費) = ${G}円 \n`;
+    calculationProcess += `H (EからF, Gを差し引いたもの) = E - F - G = ${E} - ${F} - ${G} = ${H}円 \n`;
+    calculationProcess += `I (設定幅を適用した金額) = H * 設定幅 = ${H} * ${settingWidth} = ${I}円 \n`;
+    calculationProcess += `J (最終結果: Iを四捨五入した金額) = ${J}円`;
+
+    document.getElementById('calculation-process').innerText = calculationProcess;
 }
