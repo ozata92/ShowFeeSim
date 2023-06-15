@@ -1,49 +1,45 @@
-let step = 1;
-let performanceType, ticketPrice, venueCapacity, performanceTimes, subsidy, commissionFee, configWidth;
-let calculationProcess = '';
+var currentStep = 1;
+var steps = ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "result"];
 
-function nextStep(currentStepId) {
-    // Hide current step
-    document.getElementById(currentStepId).classList.add('hidden');
-    
-    // Gather data
-    if (currentStepId === 'step1') {
-        performanceType = document.getElementById('performance-type').value;
-    } else if (currentStepId === 'step2') {
-        ticketPrice = parseInt(document.getElementById('ticket-price').value, 10);
-    } else if (currentStepId === 'step3') {
-        venueCapacity = parseInt(document.getElementById('venue-capacity').value, 10);
-    } else if (currentStepId === 'step4') {
-        performanceTimes = parseInt(document.getElementById('performance-times').value, 10);
-    } else if (currentStepId === 'step5') {
-        subsidy = parseInt(document.getElementById('subsidy').value, 10);
-    } else if (currentStepId === 'step6') {
-        commissionFee = parseInt(document.getElementById('commission-fee').value, 10);
+var settings = {
+    "general": { min: 0.01, max: 0.1 },
+    "workshop": { min: 0.01, max: 0.1 },
+    "university": { min: 0.03, max: 0.06 },
+    "highschool": { min: 0.01, max: 0.1 }
+};
+
+var step1_input, step2_input, step3_input, step4_input, step5_input, step6_input;
+
+function nextStep(current) {
+    var value;
+    switch (current) {
+        case "step1":
+            value = document.getElementById('config-width').value;
+            step1_input = parseFloat(value);
+            break;
+        case "step2":
+            value = document.getElementById('performance-type').value;
+            step2_input = value;
+            document.getElementById('config-width').min = settings[value].min;
+            document.getElementById('config-width').max = settings[value].max;
+            break;
+        // Update the other steps here in a similar way as above
     }
-    
-    // Show next step
-    step++;
-    document.getElementById(`step${step}`).classList.remove('hidden');
+
+    document.getElementById(current).classList.add("hidden");
+    currentStep += 1;
+    document.getElementById(steps[currentStep - 1]).classList.remove("hidden");
 }
 
-function calculatePerformanceFee() {
-    configWidth = parseFloat(document.getElementById('config-width').value);
-    
-    let performanceFee;
+function calculate() {
+    var result;
 
-    if (performanceType === 'highschool') {
-        performanceFee = 5000;
+    if (step2_input === "highschool") {
+        result = 5000;  // For high school performances, the result is always 5000 yen
     } else {
-        performanceFee = ((ticketPrice * venueCapacity * performanceTimes) + subsidy + commissionFee) * configWidth;
+        // Perform the calculation here for the other types of performances
+        // using the input values from the steps
     }
-    
-    calculationProcess = `((チケット料金：${ticketPrice} * 会場客席数：${venueCapacity} * 上演回数：${performanceTimes}) + 助成金/補助金：${subsidy} + 委託費/スポンサー費：${commissionFee}) * 設定幅：${configWidth}`;
 
-    if (performanceType !== 'highschool') {
-        performanceFee = Math.ceil(performanceFee / 5000) * 5000;  // Round up to nearest 5000 yen
-    }
-    
-    // Display the results
-    document.getElementById('calculation').innerText = `計算過程：${calculationProcess}`;
-    document.getElementById('result').innerText = `上演料：${performanceFee}円`;
+    document.getElementById('result').innerText = '計算結果: ' + result + '円';
 }
