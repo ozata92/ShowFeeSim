@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>上演料シミュレーター</title>
+    <style>
+        .form-group {
+            margin-bottom: 1em;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>上演料シミュレーター</h1>
+    <form id="performanceForm">
+        <div class="form-group">
+            <label for="config-width">設定幅(G):</label>
+            <input type="number" id="config-width" min="0.01" max="0.1" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="ticket-price">チケット料金(A):</label>
+            <input type="number" id="ticket-price">
+        </div>
+        <div class="form-group">
+            <label for="venue-seat-count">会場客席数(B):</label>
+            <input type="number" id="venue-seat-count">
+        </div>
+        <div class="form-group">
+            <label for="performance-count">上演回数(C):</label>
+            <input type="number" id="performance-count">
+        </div>
+        <div class="form-group">
+            <label for="performance-ratio">上演割合(D):</label>
+            <input type="number" id="performance-ratio" min="0" max="1" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="grant">助成金/補助金(E):</label>
+            <input type="number" id="grant">
+        </div>
+        <div class="form-group">
+            <label for="commission-fee">委託費/スポンサー費(F):</label>
+            <input type="number" id="commission-fee">
+        </div>
+        <button type="button" onclick="calculatePerformanceFee()">計算する</button>
+    </form>
+    <h2 id="calculation"></h2>
+    <h2 id="result"></h2>
+
+    <script>
+        function calculatePerformanceFee() {
+            var G = parseFloat(document.getElementById('config-width').value);
+            var A = parseInt(document.getElementById('ticket-price').value);
+            var B = parseInt(document.getElementById('venue-seat-count').value);
+            var C = parseInt(document.getElementById('performance-count').value);
+            var D = parseFloat(document.getElementById('performance-ratio').value);
+            var E = parseInt(document.getElementById('grant').value);
+            var F = parseInt(document.getElementById('commission-fee').value);
+
+            var calculation = "(A * B * C * D + E + F) * G = (" + A + " * " + B + " * " + C + " * " + D + " + " + E + " + " + F + ") * " + G;
+            
+            var total = Math.ceil((A * B * C * D + E + F) * G / 5000) * 5000;
+            
+            document.getElementById('calculation').textContent = "計算過程： " + calculation;
+            document.getElementById('result').textContent = "シミュレーション結果： " + total + " 円";
+        }
+    </script>
+</body>
+</html>
