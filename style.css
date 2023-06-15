@@ -1,0 +1,10 @@
+.form-group {
+    margin-bottom: 1em;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+.hidden {
+    display: none;
+}
