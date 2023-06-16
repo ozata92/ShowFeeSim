@@ -1,68 +1,70 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>演劇の著作権使用料計算ウィザード</title>
-  <!-- CSS ファイルへのリンク -->
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上演料シミュレーターDEMO | ozata92</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- 設定幅（劇作家が設定）を選択するステップ -->
-  <div class="step active">
-    <h1>ステップ1: 上演の種類を選択してください。</h1>
-    <input type="radio" id="general" name="performanceType" value="0.05" checked>
-    <label for="general">一般</label><br>
-    <input type="radio" id="workshop" name="performanceType" value="0.06">
-    <label for="workshop">ワークショップ</label><br>
-    <input type="radio" id="university" name="performanceType" value="0.03">
-    <label for="university">大学・教育機関</label><br>
-    <input type="radio" id="highschool" name="performanceType" value="0.01">
-    <label for="highschool">高校演劇</label>
-    <button id="nextButton">次へ</button>
-  </div>
-  <!-- チケット料金を入力するステップ -->
-  <div class="step">
-    <h1>ステップ2: チケット料金を入力してください（単位：100円）</h1>
-    <input type="number" id="ticketPrice" min="0">
-    <button id="nextButton">次へ</button>
-  </div>
-  <!-- 会場客席数を入力するステップ -->
-  <div class="step">
-    <h1>ステップ3: 会場客席数を入力してください</h1>
-    <input type="number" id="venueSeats" min="0">
-    <button id="nextButton">次へ</button>
-  </div>
-  <!-- 上演回数を入力するステップ -->
-  <div class="step">
-    <h1>ステップ4: 上演回数を入力してください</h1>
-    <input type="number" id="numberOfPerformances" min="0">
-    <button id="nextButton">次へ</button>
-  </div>
-  <!-- 助成金/補助金を入力するステップ -->
-  <div class="step">
-    <h1>ステップ5: 助成金/補助金を入力してください（単位：100円）</h1>
-    <input type="number" id="grantSubsidy" min="0">
-    <button id="nextButton">次へ</button>
-  </div>
-  <!-- 委託費/スポンサー費を入力するステップ -->
-  <div class="step">
-    <h1>ステップ6: 委託費/スポンサー費を入力してください（単位：100円）</h1>
-    <input type="number" id="commissionSponsorship" min="0">
-    <button id="nextButton">次へ</button>
-  </div>
-  <!-- 計算結果と計算過程を表示するステップ -->
-  <div class="step">
-    <h1>ステップ7: 著作権使用料の計算結果</h1>
-    <div id="calculationResult"></div>
-    <div id="calculationProcess"></div>
-    <button id="nextButton">次へ</button>
-  </div>
-  <!-- ウィザード完了ステップ -->
-  <div class="step">
-    <h1>ステップ8: 計算完了！</h1>
-    <p>これで著作権使用料の計算が完了しました。またのご利用をお待ちしております。</p>
-  </div>
-  <!-- JS ファイルへのリンク -->
-  <script src="script.js"></script>
+    <form id="form">
+        <!-- 上演の種類を選択するステップ -->
+        <div id="step0" class="step">
+            <label for="playType">上演の種類を選択してください</label>
+            <select id="playType">
+                <option value="general">一般</option>
+                <option value="workshop">ワークショップ</option>
+                <option value="university">大学・教育機関</option>
+                <option value="highschool">高校演劇</option>
+            </select>
+            <button type="button" class="next">次へ</button>
+        </div>
+        <!-- チケット料金を入力するステップ -->
+        <div id="step1" class="step hidden">
+            <label for="ticketPrice">チケット料金を入力してください（100円単位）</label>
+            <input type="number" id="ticketPrice" min="0" step="100">
+            <button type="button" class="prev">戻る</button>
+            <button type="button" class="next">次へ</button>
+        </div>
+        <!-- 会場の客席数を入力するステップ -->
+        <div id="step2" class="step hidden">
+            <label for="venueSeats">会場の客席数を入力してください</label>
+            <input type="number" id="venueSeats" min="0">
+            <button type="button" class="prev">戻る</button>
+            <button type="button" class="next">次へ</button>
+        </div>
+        <!-- 上演回数を入力するステップ -->
+        <div id="step3" class="step hidden">
+            <label for="playTimes">上演回数を入力してください</label>
+            <input type="number" id="playTimes" min="0">
+            <button type="button" class="prev">戻る</button>
+            <button type="button" class="next">次へ</button>
+        </div>
+        <!-- 助成金/補助金を入力するステップ -->
+        <div id="step4" class="step hidden">
+            <label for="subsidy">助成金/補助金を入力してください（100円単位）</label>
+            <input type="number" id="subsidy" min="0" step="100">
+            <button type="button" class="prev">戻る</button>
+            <button type="button" class="next">次へ</button>
+        </div>
+        <!-- 委託費/スポンサー費を入力するステップ -->
+        <div id="step5" class="step hidden">
+            <label for="commission">委託費/スポンサー費を入力してください（100円単位）</label>
+            <input type="number" id="commission" min="0" step="100">
+            <button type="button" class="prev">戻る</button>
+            <button type="button" class="next">次へ</button>
+        </div>
+        <!-- 著作権料を計算するステップ -->
+        <div id="step6" class="step hidden">
+            <p id="result"></p>
+            <button type="button" class="prev">戻る</button>
+        </div>
+        <!-- 計算過程を表示するステップ -->
+        <div id="step7" class="step hidden">
+            <p id="calculationProcess"></p>
+            <button type="button" class="prev">戻る</button>
+        </div>
+    </form>
+    <script src="script.js"></script>
 </body>
 </html>
