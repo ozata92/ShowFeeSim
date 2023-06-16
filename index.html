@@ -1,63 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>上演料シミュレーター</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>演劇の著作権使用料計算ウィザード</title>
+  <!-- CSS ファイルへのリンク -->
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div id="step1" class="step">
-        <h1>Step 1: 設定幅 (劇作家が設定)</h1>
-        <input id="settingWidth" type="number" min="0.01" max="0.1" step="0.01" value="0.05">
-        <button onclick="nextStep(1)">次へ</button>
-    </div>
-
-    <div id="step2" class="step hidden">
-        <h1>Step 2: 上演の種類</h1>
-        <select id="performanceType">
-            <option value="general">一般</option>
-            <option value="workshop">ワークショップ</option>
-            <option value="educational">大学・教育機関</option>
-            <option value="highschool">高校演劇</option>
-        </select>
-        <button onclick="nextStep(2)">次へ</button>
-    </div>
-
-    <div id="step3" class="step hidden">
-        <h1>Step 3: チケット料金</h1>
-        <input id="ticketPrice" type="number" value="0">
-        <button onclick="nextStep(3)">次へ</button>
-    </div>
-
-    <div id="step4" class="step hidden">
-        <h1>Step 4: 会場客席数</h1>
-        <input id="seatNumber" type="number" value="0">
-        <button onclick="nextStep(4)">次へ</button>
-    </div>
-
-    <div id="step5" class="step hidden">
-        <h1>Step 5: 上演回数</h1>
-        <input id="performanceNumber" type="number" value="0">
-        <button onclick="nextStep(5)">次へ</button>
-    </div>
-
-    <div id="step6" class="step hidden">
-        <h1>Step 6: 助成金/補助金</h1>
-        <input id="subsidy" type="number" value="0">
-        <button onclick="nextStep(6)">次へ</button>
-    </div>
-
-    <div id="step7" class="step hidden">
-        <h1>Step 7: 委託費/スポンサー費</h1>
-        <input id="sponsorFee" type="number" value="0">
-        <button onclick="nextStep(7)">次へ</button>
-    </div>
-
-    <div id="step8" class="step hidden">
-        <h1>Step 8: 計算結果</h1>
-        <p id="final-result"></p>
-        <p id="calculation-process"></p>
-    </div>
-
-    <script src="script.js"></script>
+  <!-- 設定幅（劇作家が設定）を選択するステップ -->
+  <div class="step active">
+    <h1>ステップ1: 上演の種類を選択してください。</h1>
+    <input type="radio" id="general" name="performanceType" value="0.05" checked>
+    <label for="general">一般</label><br>
+    <input type="radio" id="workshop" name="performanceType" value="0.06">
+    <label for="workshop">ワークショップ</label><br>
+    <input type="radio" id="university" name="performanceType" value="0.03">
+    <label for="university">大学・教育機関</label><br>
+    <input type="radio" id="highschool" name="performanceType" value="0.01">
+    <label for="highschool">高校演劇</label>
+    <button id="nextButton">次へ</button>
+  </div>
+  <!-- チケット料金を入力するステップ -->
+  <div class="step">
+    <h1>ステップ2: チケット料金を入力してください（単位：100円）</h1>
+    <input type="number" id="ticketPrice" min="0">
+    <button id="nextButton">次へ</button>
+  </div>
+  <!-- 会場客席数を入力するステップ -->
+  <div class="step">
+    <h1>ステップ3: 会場客席数を入力してください</h1>
+    <input type="number" id="venueSeats" min="0">
+    <button id="nextButton">次へ</button>
+  </div>
+  <!-- 上演回数を入力するステップ -->
+  <div class="step">
+    <h1>ステップ4: 上演回数を入力してください</h1>
+    <input type="number" id="numberOfPerformances" min="0">
+    <button id="nextButton">次へ</button>
+  </div>
+  <!-- 助成金/補助金を入力するステップ -->
+  <div class="step">
+    <h1>ステップ5: 助成金/補助金を入力してください（単位：100円）</h1>
+    <input type="number" id="grantSubsidy" min="0">
+    <button id="nextButton">次へ</button>
+  </div>
+  <!-- 委託費/スポンサー費を入力するステップ -->
+  <div class="step">
+    <h1>ステップ6: 委託費/スポンサー費を入力してください（単位：100円）</h1>
+    <input type="number" id="commissionSponsorship" min="0">
+    <button id="nextButton">次へ</button>
+  </div>
+  <!-- 計算結果と計算過程を表示するステップ -->
+  <div class="step">
+    <h1>ステップ7: 著作権使用料の計算結果</h1>
+    <div id="calculationResult"></div>
+    <div id="calculationProcess"></div>
+    <button id="nextButton">次へ</button>
+  </div>
+  <!-- ウィザード完了ステップ -->
+  <div class="step">
+    <h1>ステップ8: 計算完了！</h1>
+    <p>これで著作権使用料の計算が完了しました。またのご利用をお待ちしております。</p>
+  </div>
+  <!-- JS ファイルへのリンク -->
+  <script src="script.js"></script>
 </body>
 </html>
