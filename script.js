@@ -1,20 +1,22 @@
+console.log("Script.js loaded");
+
 // HTMLの各要素を取得
 let widthSetting = document.getElementById('widthSetting');
-console.log('widthSetting:', widthSetting);
+console.log('widthSetting element:', widthSetting);
 let typeSetting = document.getElementById('typeSetting');
-console.log('typeSetting:', typeSetting);
+console.log('typeSetting element:', typeSetting);
 let ticketPrice = document.getElementById('ticketPrice');
-console.log('ticketPrice:', ticketPrice);
+console.log('ticketPrice element:', ticketPrice);
 let numberOfSeats = document.getElementById('numberOfSeats');
-console.log('numberOfSeats:', numberOfSeats);
+console.log('numberOfSeats element:', numberOfSeats);
 let numberOfShows = document.getElementById('numberOfShows');
-console.log('numberOfShows:', numberOfShows);
+console.log('numberOfShows element:', numberOfShows);
 let subsidy = document.getElementById('subsidy');
-console.log('subsidy:', subsidy);
+console.log('subsidy element:', subsidy);
 let result = document.getElementById('result');
-console.log('result:', result);
+console.log('result element:', result);
 let calculationProcess = document.getElementById('calculationProcess');
-console.log('calculationProcess:', calculationProcess);
+console.log('calculationProcess element:', calculationProcess);
 
 // 各ステップへのボタンを取得
 let toStep2 = document.getElementById('toStep2');
@@ -39,11 +41,12 @@ function switchStep(nextIndex) {
 }
 
 // 各ステップへのボタンにイベントリスナーを設定
-toStep2.addEventListener('click', function() { switchStep(1); });
-toStep3.addEventListener('click', function() { switchStep(2); });
-toStep4.addEventListener('click', function() { switchStep(3); });
-toStep5.addEventListener('click', function() { switchStep(4); });
+toStep2.addEventListener('click', function() { console.log("toStep2 button clicked"); switchStep(1); });
+toStep3.addEventListener('click', function() { console.log("toStep3 button clicked"); switchStep(2); });
+toStep4.addEventListener('click', function() { console.log("toStep4 button clicked"); switchStep(3); });
+toStep5.addEventListener('click', function() { console.log("toStep5 button clicked"); switchStep(4); });
 toStep6.addEventListener('click', function() { 
+    console.log("toStep6 button clicked");
     let fee = calculateFee();
     result.textContent = fee + "円";
     calculationProcess.textContent = `(${ticketPrice.value} * ${numberOfSeats.value} * ${numberOfShows.value} + ${subsidy.value}) * ${widthSetting.value}`;
@@ -54,22 +57,19 @@ toStep6.addEventListener('click', function() {
 // 計算処理
 function calculateFee() {
     console.log('Calculating fee...');
-    // 高校演劇の場合は5000円で確定
-    if(typeSetting.value == "1") {
-        console.log('High school performance, fee is 5000 yen.');
+    // 高校演劇を選択した場合は5000円
+    if(typeSetting.value == "highSchool") {
+        console.log('Type is high school, returning 5000');
         return 5000;
     }
-    // 上演の種類が一般公演の場合
-    else {
-        let fee = (Number(ticketPrice.value) * Number(numberOfSeats.value) * Number(numberOfShows.value) + Number(subsidy.value)) * Number(widthSetting.value);
-        // 5000円未満は切り上げ
-        if(fee < 5000) {
-            console.log('Fee less than 5000 yen, rounding up to 5000.');
-            fee = 5000;
-        }
-        console.log('Calculated fee:', fee);
-        return Math.floor(fee);
-    }
+
+    // 計算結果（5000円未満は切り上げ）
+    let fee = Math.ceil((Number(ticketPrice.value) * Number(numberOfSeats.value) * Number(numberOfShows.value) + Number(subsidy.value)) * Number(widthSetting.value) / 5000) * 5000;
+    console.log('Calculated fee:', fee);
+
+    return fee;
 }
 
-console.log('JavaScript loaded successfully');
+// ページ読み込み時に初期ステップを表示
+switchStep(0);
+console.log('Initial step shown');
