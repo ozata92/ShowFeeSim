@@ -16,7 +16,7 @@ function switchStep(step) {
 document.getElementById("toStep2").addEventListener("click", function() {
     switchStep(1);
 });
-// 各ステップ間の移動イベントリスナーを設定します...
+// 各ステップ間の移動イベントリスナーを設定
 document.getElementById("showResult").addEventListener("click", function() {
     document.getElementById("fee").innerText = calculateFee();
     switchStep(8);
@@ -27,9 +27,9 @@ document.getElementById("reset").addEventListener("click", function() {
     switchStep(0);
 });
 
-// 著作権料計算関数
+// 上演料計算関数
 function calculateFee() {
-    // ハイスクール演劇を選択した場合は5000円
+    // 高校演劇を選択した場合は5000円
     if(typeSetting.value == "highSchool") {
         console.log('Type is high school, returning 5000');
         return 5000;
