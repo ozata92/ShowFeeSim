@@ -1,60 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>上演料シミュレーター</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <div id="step1" class="step">
-        <p>設定幅を選んでください。</p>
-        <select id="widthSetting">
-            <option value="0.01">0.01</option>
-            <option value="0.02">0.02</option>
-            <!-- 各オプションをここに追加します -->
-            <option value="0.1">0.1</option>
-        </select>
-        <button id="toStep2">次へ</button>
+  <h1>上演料シミュレーター</h1>
+  <div id="wizard">
+    <div id="step1" class="step active">
+      <h2>ステップ1: 設定幅</h2>
+      <label for="range">設定幅 (0.01〜0.1):</label>
+      <input type="number" id="range" step="0.01" min="0.01" max="0.1" required>
+      <button onclick="nextStep(1)">次へ</button>
     </div>
     <div id="step2" class="step">
-        <p>上演の種類を選んでください。</p>
-        <select id="typeSetting">
-            <option value="normal">通常公演</option>
-            <option value="highSchool">高校演劇</option>
-        </select>
-        <button id="toStep3">次へ</button>
+      <h2>ステップ2: カテゴリー選択</h2>
+      <label for="category">カテゴリー:</label>
+      <select id="category" required>
+        <option value="">選択してください</option>
+        <option value="general">一般</option>
+        <option value="highschool">高校演劇</option>
+        <option value="other">その他教育機関・WS</option>
+      </select>
+      <button onclick="nextStep(2)">次へ</button>
     </div>
     <div id="step3" class="step">
-        <p>チケット料金を入力してください。</p>
-        <input id="ticketPrice" type="number" min="0">
-        <button id="toStep4">次へ</button>
+      <h2>ステップ3: チケット料金</h2>
+      <label for="ticketPrice">チケット料金:</label>
+      <input type="number" id="ticketPrice" min="0" required>
+      <button onclick="nextStep(3)">次へ</button>
     </div>
     <div id="step4" class="step">
-        <p>会場の客席数を入力してください。</p>
-        <input id="numberOfSeats" type="number" min="0">
-        <button id="toStep5">次へ</button>
+      <h2>ステップ4: 会場客席数</h2>
+      <label for="seatCount">会場客席数:</label>
+      <input type="number" id="seatCount" min="0" required>
+      <button onclick="nextStep(4)">次へ</button>
     </div>
     <div id="step5" class="step">
-        <p>上演回数を入力してください。</p>
-        <input id="numberOfShows" type="number" min="0">
-        <button id="toStep6">次へ</button>
+      <h2>ステップ5: 上演回数</h2>
+      <label for="performanceCount">上演回数:</label>
+      <input type="number" id="performanceCount" min="0" required>
+      <button onclick="nextStep(5)">次へ</button>
     </div>
     <div id="step6" class="step">
-        <p>助成金（補助金）を入力してください。</p>
-        <input id="subsidy" type="number" min="0">
-        <button id="toStep7">次へ</button>
+      <h2>ステップ6: 助成金/補助金</h2>
+      <label for="grant">助成金/補助金:</label>
+      <input type="number" id="grant" min="0" required>
+      <button onclick="nextStep(6)">次へ</button>
     </div>
     <div id="step7" class="step">
-        <p>委託費（スポンサー費）を入力してください。</p>
-        <input id="commission" type="number" min="0">
-        <button id="toStep8">次へ</button>
-    </div>
-    <div id="step8" class="step">
-        <p>計算結果を表示しますか？</p>
-        <button id="showResult">はい</button>
+      <h2>ステップ7: 委託費/スポンサー費</h2>
+      <label for="sponsor">委託費/スポンサー費:</label>
+      <input type="number" id="sponsor" min="0" required>
+      <button onclick="calculate()">計算</button>
     </div>
     <div id="result" class="step">
-        <p>最終的な上演料は<span id="fee">0</span>円です。</p>
-        <button id="reset">リセット</button>
+      <h2>計算結果</h2>
+        <p id="total">合計: <span>0</span> 円</p>
+        <div id="calculationProcess" class="step">
+            <h2>計算過程</h2>
+            <ul>
+                <li>A(チケット料金): <span id="ticketPriceProcess">0</span> 円</li>
+                <li>B(会場客席数): <span id="seatCountProcess">0</span></li>
+                <li>C(上演回数): <span id="performanceCountProcess">0</span></li>
+                <li>D(助成金/補助金): <span id="grantProcess">0</span> 円</li>
+                <li>E(委託費/スポンサー費): <span id="sponsorProcess">0</span> 円</li>
+                <li>F(設定幅 ※隠しパラメータ): <span id="rangeProcess">0</span></li>
+            </ul>
     </div>
-    <script src="script.js"></script>
+  </div>
 </body>
 </html>
