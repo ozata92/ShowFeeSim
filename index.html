@@ -1,68 +1,60 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playwright Fee Calculator</title>
-    <!-- CSSとJSへのリンク -->
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- コンテナを追加し、ステップを包含します -->
-    <div class="container">
-        <!-- 設定幅を選択するステップ -->
-        <div class="step show" id="step1">
-            <h1>設定幅を選択</h1>
-            <input type="number" id="widthSetting" min="0.01" max="0.1" step="0.01" value="0.01">
-            <input type="button" value="次へ" id="toStep2">
-        </div>
-
-        <!-- 上演の種類を選択するステップ -->
-        <div class="step" id="step2">
-            <h1>上演の種類を選択</h1>
-            <select id="typeSetting">
-                <option value="0">一般公演</option>
-                <option value="1">高校演劇</option>
-            </select>
-            <input type="button" value="次へ" id="toStep3">
-        </div>
-
-        <!-- チケット料金を入力するステップ -->
-        <div class="step" id="step3">
-            <h1>チケット料金を入力</h1>
-            <input type="number" id="ticketPrice" min="0">
-            <input type="button" value="次へ" id="toStep4">
-        </div>
-
-        <!-- 会場の客席数を入力するステップ -->
-        <div class="step" id="step4">
-            <h1>会場の客席数を入力</h1>
-            <input type="number" id="numberOfSeats" min="0">
-            <input type="button" value="次へ" id="toStep5">
-        </div>
-
-        <!-- 上演回数を入力するステップ -->
-        <div class="step" id="step5">
-            <h1>上演回数を入力</h1>
-            <input type="number" id="numberOfShows" min="0">
-            <input type="button" value="次へ" id="toStep6">
-        </div>
-
-        <!-- 補助金を入力するステップ -->
-        <div class="step" id="step6">
-            <h1>補助金を入力</h1>
-            <input type="number" id="subsidy" min="0">
-            <input type="button" value="次へ" id="toStep7">
-        </div>
-
-        <!-- 計算結果を表示するステップ -->
-        <div class="step" id="step7">
-            <h1>計算結果</h1>
-            <p id="result"></p>
-            <h1>計算過程</h1>
-            <p id="calculationProcess"></p>
-        </div>
+    <div id="step1" class="step">
+        <p>設定幅を選んでください。</p>
+        <select id="widthSetting">
+            <option value="0.01">0.01</option>
+            <option value="0.02">0.02</option>
+            <!-- 各オプションをここに追加します -->
+            <option value="0.1">0.1</option>
+        </select>
+        <button id="toStep2">次へ</button>
     </div>
+    <div id="step2" class="step">
+        <p>上演の種類を選んでください。</p>
+        <select id="typeSetting">
+            <option value="normal">通常公演</option>
+            <option value="highSchool">高校演劇</option>
+        </select>
+        <button id="toStep3">次へ</button>
+    </div>
+    <div id="step3" class="step">
+        <p>チケット料金を入力してください。</p>
+        <input id="ticketPrice" type="number" min="0">
+        <button id="toStep4">次へ</button>
+    </div>
+    <div id="step4" class="step">
+        <p>会場の客席数を入力してください。</p>
+        <input id="numberOfSeats" type="number" min="0">
+        <button id="toStep5">次へ</button>
+    </div>
+    <div id="step5" class="step">
+        <p>上演回数を入力してください。</p>
+        <input id="numberOfShows" type="number" min="0">
+        <button id="toStep6">次へ</button>
+    </div>
+    <div id="step6" class="step">
+        <p>助成金（補助金）を入力してください。</p>
+        <input id="subsidy" type="number" min="0">
+        <button id="toStep7">次へ</button>
+    </div>
+    <div id="step7" class="step">
+        <p>委託費（スポンサー費）を入力してください。</p>
+        <input id="commission" type="number" min="0">
+        <button id="toStep8">次へ</button>
+    </div>
+    <div id="step8" class="step">
+        <p>計算結果を表示しますか？</p>
+        <button id="showResult">はい</button>
+    </div>
+    <div id="result" class="step">
+        <p>最終的な著作権料は<span id="fee">0</span>円です。</p>
+        <button id="reset">リセット</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
