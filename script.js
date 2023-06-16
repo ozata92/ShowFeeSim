@@ -1,56 +1,67 @@
-// ステップ1の設定幅 (F)
-let F;
+// HTMLの要素を取得
+var form = document.getElementById("form");
+var steps = Array.from(document.getElementsByClassName("step"));
+var nextButtons = Array.from(document.getElementsByClassName("next"));
+var prevButtons = Array.from(document.getElementsByClassName("prev"));
+var estimationResult = document.getElementById("result");
+var debugCalculation = document.getElementById("debugCalculation");
 
-// ステップ2以降の値を格納するオブジェクト
-let values = {};
+var A, B, C, D, E, F;
 
-// ステップの進行度を管理する変数
-let currentStep = 0;
-
-// 各ステップで実行する関数
-let stepFunctions = [
-  function() {
-    // ステップ1: 設定幅の入力
-    F = Number(document.querySelector('input[name="performanceType"]:checked').value);
-  },
-  function() {
-    // ステップ2: チケット料金の入力
-    values.A = Number(document.getElementById('ticketPrice').value) * 100;  // 100円単位で入力される
-  },
-  function() {
-    // ステップ3: 会場客席数の入力
-    values.B = Number(document.getElementById('venueSeats').value);
-  },
-  function() {
-    // ステップ4: 上演回数の入力
-    values.C = Number(document.getElementById('numberOfPerformances').value);
-  },
-  function() {
-    // ステップ5: 助成金/補助金の入力
-    values.D = Number(document.getElementById('grantSubsidy').value) * 100;  // 100円単位で入力される
-  },
-  function() {
-    // ステップ6: 委託費/スポンサー費の入力
-    values.E = Number(document.getElementById('commissionSponsorFee').value) * 100;  // 100円単位で入力される
-  },
-  function() {
-    // ステップ7: 計算結果の表示
-    let total = Math.ceil((F * (values.A * values.B * values.C + values.D + values.E)) / 5000) * 5000;
-    document.getElementById('calculationResult').innerText = total.toLocaleString();
-
-    // 計算過程の表示 (新規追加部分)
-    document.getElementById('calculationProcess').innerText = `F * (A * B * C + D + E) = ${F} * (${values.A} * ${values.B} * ${values.C} + ${values.D} + ${values.E}) = ${total}`;
-  },
-];
-
-function nextStep() {
-  // 現在のステップの処理を実行
-  stepFunctions[currentStep]();
-  // 次のステップに進む
-  currentStep++;
-  // 次のステップの内容を表示
-  document.querySelector('.step.active').classList.remove('active');
-  document.querySelector(`.step:nth-child(${currentStep + 1})`).classList.add('active');
+// 各ステップでの処理
+function handleSteps(step) {
+  switch(step) {
+    case 0:
+      F = document.getElementById("playType").value;
+      if (F == "general" || F == "workshop") {
+        F = prompt("設定幅を0.01～0.1の間で入力してください");
+      } else if (F == "university") {
+        F = prompt("設定幅を0.03～0.06の間で入力してください");
+      } else if (F == "highschool") {
+        F = 0.1;  // 高校演劇の場合は計算結果が5000円となるため設定幅は0.1とする
+      }
+      break;
+    case 1:
+      A = document.getElementById("ticketPrice").value;
+      break;
+    case 2:
+      B = document.getElementById("venueSeats").value;
+      break;
+    case 3:
+      C = document.getElementById("playTimes").value;
+      break;
+    case 4:
+      D = document.getElementById("subsidy").value;
+      break;
+    case 5:
+      E = document.getElementById("sponsorship").value;
+      break;
+    case 6:
+      if (F == "highschool") {
+        estimationResult.innerText = "計算結果: 5000円";
+        debugCalculation.innerText = "高校演劇のため計算結果は固定の5000円です";
+      } else {
+        let calculation = Math.ceil(F * (A * B * C + D + E));
+        estimationResult.innerText = "計算結果: " + calculation + "円";
+        debugCalculation.innerText = "計算過程: " + F + " * (" + A + " * " + B + " * " + C + " + " + D + " + " + E + ")";
+      }
+      break;
+  }
 }
 
-document.getElementById('nextButton').addEventListener('click', nextStep);
+// 「次へ」ボタンが押されたときの処理
+nextButtons.forEach((button, index) => {
+  button.addEventListener("click", function() {
+    steps[index].classList.add("hidden");
+    steps[index+1].classList.remove("hidden");
+    handleSteps(index+1);
+  });
+});
+
+// 「戻る」ボタンが押されたときの処理
+prevButtons.forEach((button, index) => {
+  button.addEventListener("click", function() {
+    steps[index+1].classList.add("hidden");
+    steps[index].classList.remove("hidden");
+  });
+});
