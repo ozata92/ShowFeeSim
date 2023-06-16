@@ -3,68 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>上演料シミュレーター</title>
+    <title>Playwright Fee Calculator</title>
+    <!-- CSSとJSへのリンク -->
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <form id="form">
+    <!-- コンテナを追加し、ステップを包含します -->
+    <div class="container">
+        <!-- 設定幅を選択するステップ -->
+        <div class="step show" id="step1">
+            <h1>設定幅を選択</h1>
+            <input type="number" id="widthSetting" min="0.01" max="0.1" step="0.01" value="0.01">
+            <input type="button" value="次へ" id="toStep2">
+        </div>
+
         <!-- 上演の種類を選択するステップ -->
-        <div id="step0" class="step">
-            <label for="playType">上演の種類を選択してください</label>
-            <select id="playType">
-                <option value="general">一般</option>
-                <option value="workshop">ワークショップ</option>
-                <option value="university">大学・教育機関</option>
-                <option value="highschool">高校演劇</option>
+        <div class="step" id="step2">
+            <h1>上演の種類を選択</h1>
+            <select id="typeSetting">
+                <option value="0">一般公演</option>
+                <option value="1">高校演劇</option>
             </select>
-            <button type="button" class="next">次へ</button>
+            <input type="button" value="次へ" id="toStep3">
         </div>
+
         <!-- チケット料金を入力するステップ -->
-        <div id="step1" class="step hidden">
-            <label for="ticketPrice">チケット料金を入力してください（100円単位）</label>
-            <input type="number" id="ticketPrice" min="0" step="100">
-            <button type="button" class="prev">戻る</button>
-            <button type="button" class="next">次へ</button>
+        <div class="step" id="step3">
+            <h1>チケット料金を入力</h1>
+            <input type="number" id="ticketPrice" min="0">
+            <input type="button" value="次へ" id="toStep4">
         </div>
+
         <!-- 会場の客席数を入力するステップ -->
-        <div id="step2" class="step hidden">
-            <label for="venueSeats">会場の客席数を入力してください</label>
-            <input type="number" id="venueSeats" min="0">
-            <button type="button" class="prev">戻る</button>
-            <button type="button" class="next">次へ</button>
+        <div class="step" id="step4">
+            <h1>会場の客席数を入力</h1>
+            <input type="number" id="numberOfSeats" min="0">
+            <input type="button" value="次へ" id="toStep5">
         </div>
+
         <!-- 上演回数を入力するステップ -->
-        <div id="step3" class="step hidden">
-            <label for="playTimes">上演回数を入力してください</label>
-            <input type="number" id="playTimes" min="0">
-            <button type="button" class="prev">戻る</button>
-            <button type="button" class="next">次へ</button>
+        <div class="step" id="step5">
+            <h1>上演回数を入力</h1>
+            <input type="number" id="numberOfShows" min="0">
+            <input type="button" value="次へ" id="toStep6">
         </div>
-        <!-- 助成金/補助金を入力するステップ -->
-        <div id="step4" class="step hidden">
-            <label for="subsidy">助成金/補助金を入力してください（100円単位）</label>
-            <input type="number" id="subsidy" min="0" step="100">
-            <button type="button" class="prev">戻る</button>
-            <button type="button" class="next">次へ</button>
+
+        <!-- 補助金を入力するステップ -->
+        <div class="step" id="step6">
+            <h1>補助金を入力</h1>
+            <input type="number" id="subsidy" min="0">
+            <input type="button" value="次へ" id="toStep7">
         </div>
-        <!-- 委託費/スポンサー費を入力するステップ -->
-        <div id="step5" class="step hidden">
-            <label for="commission">委託費/スポンサー費を入力してください（100円単位）</label>
-            <input type="number" id="commission" min="0" step="100">
-            <button type="button" class="prev">戻る</button>
-            <button type="button" class="next">次へ</button>
-        </div>
-        <!-- 著作権料を計算するステップ -->
-        <div id="step6" class="step hidden">
+
+        <!-- 計算結果を表示するステップ -->
+        <div class="step" id="step7">
+            <h1>計算結果</h1>
             <p id="result"></p>
-            <button type="button" class="prev">戻る</button>
-        </div>
-        <!-- 計算過程を表示するステップ -->
-        <div id="step7" class="step hidden">
+            <h1>計算過程</h1>
             <p id="calculationProcess"></p>
-            <button type="button" class="prev">戻る</button>
         </div>
-    </form>
-    <script src="script.js"></script>
+    </div>
 </body>
 </html>
