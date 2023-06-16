@@ -1,67 +1,75 @@
-// HTMLの要素を取得
-var form = document.getElementById("form");
-var steps = Array.from(document.getElementsByClassName("step"));
-var nextButtons = Array.from(document.getElementsByClassName("next"));
-var prevButtons = Array.from(document.getElementsByClassName("prev"));
-var estimationResult = document.getElementById("result");
-var debugCalculation = document.getElementById("debugCalculation");
+// HTMLの各要素を取得
+let widthSetting = document.getElementById('widthSetting');
+console.log('widthSetting:', widthSetting);
+let typeSetting = document.getElementById('typeSetting');
+console.log('typeSetting:', typeSetting);
+let ticketPrice = document.getElementById('ticketPrice');
+console.log('ticketPrice:', ticketPrice);
+let numberOfSeats = document.getElementById('numberOfSeats');
+console.log('numberOfSeats:', numberOfSeats);
+let numberOfShows = document.getElementById('numberOfShows');
+console.log('numberOfShows:', numberOfShows);
+let subsidy = document.getElementById('subsidy');
+console.log('subsidy:', subsidy);
+let result = document.getElementById('result');
+console.log('result:', result);
+let calculationProcess = document.getElementById('calculationProcess');
+console.log('calculationProcess:', calculationProcess);
 
-var A, B, C, D, E, F;
+// 各ステップへのボタンを取得
+let toStep2 = document.getElementById('toStep2');
+let toStep3 = document.getElementById('toStep3');
+let toStep4 = document.getElementById('toStep4');
+let toStep5 = document.getElementById('toStep5');
+let toStep6 = document.getElementById('toStep6');
 
-// 各ステップでの処理
-function handleSteps(step) {
-  switch(step) {
-    case 0:
-      F = document.getElementById("playType").value;
-      if (F == "general" || F == "workshop") {
-        F = prompt("設定幅を0.01～0.1の間で入力してください");
-      } else if (F == "university") {
-        F = prompt("設定幅を0.03～0.06の間で入力してください");
-      } else if (F == "highschool") {
-        F = 0.1;  // 高校演劇の場合は計算結果が5000円となるため設定幅は0.1とする
-      }
-      break;
-    case 1:
-      A = document.getElementById("ticketPrice").value;
-      break;
-    case 2:
-      B = document.getElementById("venueSeats").value;
-      break;
-    case 3:
-      C = document.getElementById("playTimes").value;
-      break;
-    case 4:
-      D = document.getElementById("subsidy").value;
-      break;
-    case 5:
-      E = document.getElementById("sponsorship").value;
-      break;
-    case 6:
-      if (F == "highschool") {
-        estimationResult.innerText = "計算結果: 5000円";
-        debugCalculation.innerText = "高校演劇のため計算結果は固定の5000円です";
-      } else {
-        let calculation = Math.ceil(F * (A * B * C + D + E));
-        estimationResult.innerText = "計算結果: " + calculation + "円";
-        debugCalculation.innerText = "計算過程: " + F + " * (" + A + " * " + B + " * " + C + " + " + D + " + " + E + ")";
-      }
-      break;
-  }
+// 全てのステップを取得
+let steps = document.querySelectorAll('.step');
+
+// ステップを切り替える関数
+function switchStep(nextIndex) {
+    console.log('Switching to step:', nextIndex + 1);
+    for(let i = 0; i < steps.length; i++) {
+        if(i == nextIndex) {
+            steps[i].classList.add('show');
+        } else {
+            steps[i].classList.remove('show');
+        }
+    }
 }
 
-// 「次へ」ボタンが押されたときの処理
-nextButtons.forEach((button, index) => {
-  button.addEventListener("click", function() {
-    steps[index].classList.add("hidden");
-    steps[index+1].classList.remove("hidden");
-    handleSteps(index+1);
-  });
+// 各ステップへのボタンにイベントリスナーを設定
+toStep2.addEventListener('click', function() { switchStep(1); });
+toStep3.addEventListener('click', function() { switchStep(2); });
+toStep4.addEventListener('click', function() { switchStep(3); });
+toStep5.addEventListener('click', function() { switchStep(4); });
+toStep6.addEventListener('click', function() { 
+    let fee = calculateFee();
+    result.textContent = fee + "円";
+    calculationProcess.textContent = `(${ticketPrice.value} * ${numberOfSeats.value} * ${numberOfShows.value} + ${subsidy.value}) * ${widthSetting.value}`;
+    switchStep(5); 
+    console.log('Final calculation:', fee);
 });
 
-// 「戻る」ボタンが押されたときの処理
-prevButtons.forEach((button, index) => {
-  button.addEventListener("click", function() {
-    steps[index+1].classList.add("hidden");
-    steps[index].classList.remove("hidden");
-  });
-});
+// 計算処理
+function calculateFee() {
+    console.log('Calculating fee...');
+    // 高校演劇の場合は5000円で確定
+    if(typeSetting.value == "1") {
+        console.log('High school performance, fee is 5000 yen.');
+        return 5000;
+    }
+    // 上演の種類が一般公演の場合
+    else {
+        let fee = (Number(ticketPrice.value) * Number(numberOfSeats.value) * Number(numberOfShows.value) + Number(subsidy.value)) * Number(widthSetting.value);
+        // 5000円未満は切り上げ
+        if(fee < 5000) {
+            console.log('Fee less than 5000 yen, rounding up to 5000.');
+            fee = 5000;
+        }
+        console.log('Calculated fee:', fee);
+        return Math.floor(fee);
+    }
+}
+
+console.log('JavaScript loaded successfully');
