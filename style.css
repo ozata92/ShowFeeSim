@@ -1,63 +1,40 @@
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #fafafa;
-    }
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
 
-    .step {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        animation: fadeIn 0.5s ease;
-    }
+.step {
+    display: none;
+    margin-bottom: 20px;
+    transition: opacity 0.5s;
+}
 
-    .step.active {
-        display: block;
-    }
+.step.active {
+    display: block;
+    opacity: 1;
+    animation: fadeIn 0.5s;
+}
 
-    .step input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
+button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-    .step select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
+button:disabled {
+    background: #ccc;
+}
 
-    .step button {
-        border: none;
-        background-color: #008CBA;
-        color: white;
-        padding: 10px 24px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
+button.prev {
+    background: #6c757d;
+}
 
-    .step button:hover {
-        background-color: white;
-        color: black;
-        border: 2px solid #008CBA;
-    }
-
-    .step button[disabled] {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-
-    @keyframes fadeIn {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-    }
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
